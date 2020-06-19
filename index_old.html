@@ -1,0 +1,87 @@
+<html lang=”en”>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Name of your awesome camera app -->
+    <title>Camera App</title>
+    <!-- Link to your main style sheet-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/385177b731.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <a>
+            <div id="scanSample"
+                style="border: lightseagreen solid; padding: 1.5em; border-radius: 10px; text-align: center;">
+                <div style="color: lightseagreen;">
+                    <i class="fas fa-qrcode"></i>
+                    <span style="display: block">Scan Sample</span>
+                </div>
+            </div>
+        </a>
+        <!-- Camera -->
+        <main id="camera">
+            <!-- Camera view test changes -->
+            <!-- <video id="camera--view" autoplay playsinline></video> -->
+            <!-- Camera sensor -->
+            <!-- <canvas id="camera--sensor"></canvas> -->
+        </main>
+    </div>
+    <div class="container">
+        <div>
+            <h1>Manage Images</h1>
+            <h3>
+                <label for="sampleId">Sample: </label>
+                <input type="text" id="sampleId" name="sampleId">
+            </h3>
+            <a>
+                <div id="uploadImage"
+                    style="border: lightseagreen solid; padding: 1.5em; border-radius: 10px; text-align: center;">
+                    <div style="color: lightseagreen;">
+                        <i class="fas fa-camera fa-lg"></i>
+                        <span style="display: block">Upload Images</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div style="margin-top: 10px;">
+            <div id="images" class="row">
+                <div class='col'>
+                    <div class='card'>
+                        <div class='card-body'>
+                            <div class='card-text text-right' onclick='deletePreviewFile(this)'><small class='text-muted'><i class='fas fa-trash'></i></small></div>
+                            <div class='card-text text-left'><input type='file' accept='image/*'></div>            
+                            <img class='card-img-top' src='#' alt='Card image cap'>
+                            <div class='card-block'>
+                                <div><small class='text-muted'>image-file.jpg</p></small></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="images2" class="row">
+                <div class='col'>
+                    <div class='card'>
+                        <div class='card-body'>
+                            <div class='card-text text-right' onclick='deletePreviewFile(this)'><small class='text-muted'><i class='fas fa-trash'></i></small></div>
+                            <div class='card-text text-left'><input type='file' accept='image/*' onchange='previewFile(this.type)'></div>            
+                            <img id="blah" class='card-img-top' src='#' alt='Card image cap'>
+                            <div class='card-block'>
+                                <div><small class='text-muted'>image-file.jpg</p></small></div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Reference to your JavaScript file -->
+        <script src="html5-qrcode.min.js"></script>
+        <script src="cameraInit.js"></script>
+</body>
+
+</html>

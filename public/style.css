@@ -1,0 +1,8 @@
+#camera {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.fa-trash {
+    cursor: pointer;
+}
