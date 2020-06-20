@@ -9,14 +9,15 @@ var constraints = { video: { facingMode: "environment" }, audio: false };
   //Initialize the Html5Qrcode class
   const html5QrCode = new Html5Qrcode("camera");
 
-  function previewFile() {
-    const preview = document.querySelector('#blah');
-    const file = document.querySelector('input[type=file]').files[0];
+  function previewFile(node) {
+    const preview = $(node).parents(".card-body").find(".img-upload")[0]
+    const file = node.files[0];
     const reader = new FileReader();
   
     reader.addEventListener("load", function () {
       // convert image file to base64 string
       preview.src = reader.result;
+
     }, false);
   
     if (file) {
@@ -24,20 +25,24 @@ var constraints = { video: { facingMode: "environment" }, audio: false };
     }
   }
 
-  function previewFile2() {
-    const preview = document.querySelector('#blah2');
-    const file = document.querySelector('input[type=file]').files[0];
-    const reader = new FileReader();
-  
-    reader.addEventListener("load", function () {
-      // convert image file to base64 string
-      preview.src = reader.result;
-    }, false);
-  
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  }
+// $("input[type=file]").change(function(){
+//     alert($(this).val(""));
+//     const reader = new FileReader();
+//     reader.addEventListener("load", function () {
+//       //     // convert image file to base64 string
+//       //     //preview.src = reader.result;
+    
+//       //   }, false);
+      
+//       //   if (file) {
+//       //     reader.readAsDataURL(file);
+//       //   }
+
+//     });
+// })
+
+
+
 
 document.getElementById("scanSample").onclick = function () {
   var x = document.getElementById("camera");
@@ -49,6 +54,13 @@ document.getElementById("scanSample").onclick = function () {
     html5QrCode.stop();
     x.style.display = "none";
   }
+}
+
+//delete image 
+function deletePreviewFile(obj) {
+  var image = $(obj).parents(".card-body").find("img").attr("src", "");
+  //var image = $(obj).parent().prop('className');//.find('img').attr('src');
+  console.log(image);
 }
 
 document.getElementById("uploadImage").onclick = function () {
@@ -68,59 +80,43 @@ function cameraStart() {
   navigator.mediaDevices
     .getUserMedia(constraints)
     .then(function (stream) {
+      const tracks = stream.getVideoTracks();
+      const deviceId = tracks.length && tracks[0].getCapabilities().deviceId;
+      const cameraToUse = deviceId;
 
+      //if we found an acceptable camera to use, start the camera
+      if (cameraToUse !== 0) {
+        alert("starting the camera" + cameraToUse);
+        html5QrCode.start(
+          cameraToUse,     // retreived in the previous step.
+          {
+            fps: 10,    // sets the framerate to 10 frame per second
+            //qrbox: 250  // sets only 250 X 250 region of viewfinder to
+            // scannable, rest shaded.
+          },
+          qrCodeMessage => {
+            // do something when code is read. For example:
+            // console.log(`QR Code detected: ${qrCodeMessage}`);
+            html5QrCode.stop();
+            alert('scanned code is ' + qrCodeMessage);
+            document.getElementById("sampleId").value = qrCodeMessage;
+            document.getElementById("camera").style.display = "none";
 
-      navigator.mediaDevices.enumerateDevices().then(function (devices) {
-        var deviceLength = devices.length;
-        var cameraToUse;
-        var labelId;
-        //loop through the devices and try to attach the html5qrcode to the video stream
-        for (var i = 0; i < deviceLength; i++) {
-          const device = devices[i];
-          // we only want devices that have videoinput
-          if (device.kind == "videoinput") {
-            cameraToUse = device.deviceId;
-            labelId = device.label;            
-            if ((labelId.toLowerCase().includes('rear')) || (labelId.toLowerCase().includes('back')) ) {
-              break; //bomb out of loop, we found the one we want
-            } //if it contains 'rear' or 'back'
-          } //vidio input check
-        } //for loop
+            
+            
 
-        //if we found an acceptable camera to use, start the camera
-        if (cameraToUse != "undefined") {
-          alert("starting the camera" + cameraToUse);
-          html5QrCode.start(
-            cameraToUse,     // retreived in the previous step.
-            {
-              fps: 10,    // sets the framerate to 10 frame per second
-              //qrbox: 250  // sets only 250 X 250 region of viewfinder to
-              // scannable, rest shaded.
-            },
-            qrCodeMessage => {
-              // do something when code is read. For example:
-              // console.log(`QR Code detected: ${qrCodeMessage}`);
-              html5QrCode.stop();
-              alert('scanned code is ' + qrCodeMessage);
-              document.getElementById("sampleId").value = qrCodeMessage;
-              document.getElementById("camera").style.display = "none";
-
-              
-              
-
-            },
-            errorMessage => {
-              // parse error, ideally ignore it. For example:
-              //console.log(`QR Code no longer in front of camera.`);
-            })
-            .catch(err => {
-              // Start failed, handle it. For example,
-              console.log(`Unable to start scanning, error: ${err}`);
-            });
-        } else {
-          alert("Could not find videoinput device")
-        }
-      }); //enumerateDevices
+          },
+          errorMessage => {
+            // parse error, ideally ignore it. For example:
+            //console.log(`QR Code no longer in front of camera.`);
+          })
+          .catch(err => {
+            // Start failed, handle it. For example,
+            console.log(`Unable to start scanning, error: ${err}`);
+          });
+      } else {
+        alert("Could not find videoinput device")
+      }
 
       // track = stream.getTracks()[0];
       // cameraView.srcObject = stream;
