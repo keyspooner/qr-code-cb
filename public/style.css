@@ -6,3 +6,17 @@
 .fa-trash {
     cursor: pointer;
 }
+
+.scanAndImageButton {
+    border: lightseagreen solid; 
+    padding: 1.5em; 
+    border-radius: 10px; 
+    text-align: center;
+    color: lightseagreen;
+    margin: 10px;
+}
+
+.image {
+    margin-top: 10px;
+}
+
