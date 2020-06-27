@@ -1,24 +1,21 @@
 #camera {
     width: 100%;
     margin: 0 auto;
-    /* display: none; */
 }
 
-#camera--view {
-    /* position: relative; 
-    width: 640px; */
-    object-fit: contain;
-    width: 100%;
+.fa-trash {
+    cursor: pointer;
 }
 
-#camera--sensor {
-    /* position: fixed; */
-    height: 100%;
-    width: 100%;
-    display: none;
+.scanAndImageButton {
+    border: lightseagreen solid; 
+    padding: 1.5em; 
+    border-radius: 10px; 
+    text-align: center;
+    color: lightseagreen;
 }
 
-#camera--view, #camera--sensor, #camera--output{
-    transform: scaleX(-1);
-    filter: FlipH;
+.image {
+    margin-top: 10px;
 }
+
